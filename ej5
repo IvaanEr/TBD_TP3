@@ -1,0 +1,17 @@
+EJERCICIO 5
+
+A_
+
+SELECT DISTINCT nombre,apellido FROM Persona,PoseeInmueble WHERE codigo = codigo_propietario;
+
+
+B_
+
+SELECT codigo FROM Inmueble WHERE precio >= 600000 AND precio <= 700000;
+
+C_
+
+SELECT nombre,apellido FROM Persona,PrefiereZona WHERE nombre_poblacion = 'Santa Fe' AND nombre_zona = 'Norte' AND codigo = codigo_cliente;
+
+D_
+SELECT nombre, apellido FROM Persona WHERE codigo IN (SELECT vendedor FROM Cliente,PrefiereZona WHERE nombre_poblacion = 'Rosario' AND nombre_zona = 'Centro' AND codigo = codigo_cliente);

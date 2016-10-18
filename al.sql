@@ -4,8 +4,7 @@ CREATE DATABASE IF NOT EXISTS AL;
 
 USE AL;
 
-DELETE FROM autor;
-DELETE FROM libro; 
+DROP TABLE escribe, autor, libro;
 
 CREATE TABLE IF NOT EXISTS autor (
 	aID	int(10) AUTO_INCREMENT,	
@@ -16,8 +15,6 @@ CREATE TABLE IF NOT EXISTS autor (
 	PRIMARY KEY (aID)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS libro (
 	lIsbn bigint NOT NULL,
 	lTitulo char(40) NOT NULL,
@@ -25,8 +22,6 @@ CREATE TABLE IF NOT EXISTS libro (
 	lPrecio float(15),
 	PRIMARY KEY (lIsbn)
 	); 
-
-
 
 CREATE TABLE IF NOT EXISTS escribe (
 
@@ -42,10 +37,25 @@ CREATE TABLE IF NOT EXISTS escribe (
 
 -- Ejercicio 2
 
--- ALTER TABLE autor ADD INDEX (aApe);
--- ALTER TABLE libro ADD INDEX (lTitulo);	
+ALTER TABLE autor ADD INDEX (aApe);
+ALTER TABLE libro ADD INDEX (lTitulo);	
 
 -- Ejercicio 3
-INSERT INTO autor (aNac, aNom, aApe, aRes) VALUES('Argentina','Jorge','Borges',NULL),('Argentina','Abelardo','Castillo','Chaco');
-INSERT INTO libro VALUES(1234567891,'TBD','UNR',25.50),(1,'Teoria de Tipos y Bananas Explosivas vol.2','LambdaChimp',2);
--- INSERT INTO escribe VALUES(1, 5555555555, 
+INSERT INTO autor (aNac, aNom, aApe, aRes) VALUES('Peru','Gato','Conbotas',NULL),('Argentina','Abelardo','Castillo','Chaco');
+INSERT INTO libro VALUES(2,'TBD','UNR',250),(1,'Teoria de Tipos y Bananas Explosivas vol.2','LambdaChimp',200);
+INSERT INTO escribe VALUES(1,1,'1998-01-11'),(2,2,'1945-09-11');
+
+-- Ejercicio 4
+UPDATE autor SET aRes = 'Buenos Aires'
+						 WHERE aNom = 'Abelardo' AND aApe = 'Castillo';
+
+-- UPDATE libro SET lPrecio = ((10*lPrecio)/100) + lPrecio
+		--				 WHERE lEditorial = 'UNR';
+
+UPDATE libro SET lPrecio = CASE WHEN lPrecio <= 200 THEN((20*lPrecio)/100) + lPrecio ELSE ((10*lPrecio)/100) + lPrecio END
+						 WHERE lIsbn IN (SELECT libroID FROM autor,escribe
+																						WHERE aID = autorID AND
+												     										  aNac <> 'Argentina');
+
+DELETE FROM libro WHERE lIsbn IN (SELECT libroID FROM escribe
+																									WHERE YEAR(eAño) = '1998');
