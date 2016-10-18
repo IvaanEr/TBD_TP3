@@ -49,8 +49,8 @@ INSERT INTO escribe VALUES(1,1,'1998-01-11'),(2,2,'1945-09-11');
 UPDATE autor SET aRes = 'Buenos Aires'
 						 WHERE aNom = 'Abelardo' AND aApe = 'Castillo';
 
--- UPDATE libro SET lPrecio = ((10*lPrecio)/100) + lPrecio
-		--				 WHERE lEditorial = 'UNR';
+UPDATE libro SET lPrecio = ((10*lPrecio)/100) + lPrecio
+	  				 WHERE lEditorial = 'UNR';
 
 UPDATE libro SET lPrecio = CASE WHEN lPrecio <= 200 THEN((20*lPrecio)/100) + lPrecio ELSE ((10*lPrecio)/100) + lPrecio END
 						 WHERE lIsbn IN (SELECT libroID FROM autor,escribe
